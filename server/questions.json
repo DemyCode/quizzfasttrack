@@ -1,22 +1,22 @@
 [
     {
-        "text" : "What is the capital of Sweden ?\n1) Copenhague 2) PewDiePie 3) StockHolm  4) MeatBalls\n",
+        "text" : "What is the capital of Sweden ?\n1) Copenhague 2) PewDiePie 3) StockHolm  4) MeatBalls",
         "answer" : 3
     },
     {
-        "text" : "Who has been president of the United States ?\n1) Harrison Ford 2) Henry Ford 3) Francis Ford Coppola  4) Gerald Ford\n",
+        "text" : "Who has been president of the United States ?\n1) Harrison Ford 2) Henry Ford 3) Francis Ford Coppola  4) Gerald Ford",
         "answer" : 4
     },
     {
-        "text" : "What words do not exist ?\n1) Unabashed 2) Nonplussed 3) Whomst 4) Diaphnous\n",
+        "text" : "What words do not exist ?\n1) Unabashed 2) Nonplussed 3) Whomst 4) Diaphnous",
         "answer" : 3
     },
     {
-        "text" : "Without reading the second question, who has been President of the US ?\n1) Geralt Ford 2) Gerald Ford 3) Gerard Ford 4) Han Solo\n",
+        "text" : "Without reading the second question, who has been President of the US ?\n1) Geralt Ford 2) Gerald Ford 3) Gerard Ford 4) Han Solo",
         "answer" : 2
     },
     {
-        "text" : "What is the capital of Botswana ?\n1) Gaborone 2) Windhoek 3) Harare 4) Lilongwe\n",
+        "text" : "What is the capital of Botswana ?\n1) Gaborone 2) Windhoek 3) Harare 4) Lilongwe",
         "answer" : 1
     }
 ]

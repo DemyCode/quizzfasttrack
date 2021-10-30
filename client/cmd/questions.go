@@ -17,12 +17,15 @@ package cmd
 
 import (
 	// "fmt"
-	"log"
+	"encoding/json"
+	"fmt"
+
 	// "net"
-	"net/http"
 	"io/ioutil"
+	"net/http"
 
 	"github.com/DemyCode/quizzfasttrack"
+	"github.com/DemyCode/quizzfasttrack/lib/errorhandler"
 	"github.com/spf13/cobra"
 )
 
@@ -33,16 +36,25 @@ var randomCmd = &cobra.Command{
 	Long: `Usage : questions
 Description : Displays the Questions containted in the description of questions.go file.`,
 	Run: func(cmd *cobra.Command, args []string) {
+		var err error
+		var fatal bool = true
+
 		var adress = "http://" + config.HOST + ":" + config.PORT
-		var resp, errgetquestions = http.Get(adress + "/questions")
-		if (errgetquestions != nil) {
-			log.Fatalln(errgetquestions)
+		resp, err := http.Get(adress + "/questions")
+		errorhandler.ErrorHandler(err, fatal)
+
+		body, err := ioutil.ReadAll(resp.Body)
+		errorhandler.ErrorHandler(err, fatal)
+		
+		var textonly []string
+		err = json.Unmarshal(body, &textonly)
+		errorhandler.ErrorHandler(err, fatal)
+
+		fmt.Println("Here are the questions !\n")
+		for _, text := range textonly {
+			fmt.Println(text + "\n")
 		}
-		var body, err = ioutil.ReadAll(resp.Body)
-		if err != nil {
-			log.Fatalln(err)
-		}
-		log.Println(string(body))
+
 		defer resp.Body.Close()
 	},
 }
