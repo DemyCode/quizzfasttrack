@@ -22,7 +22,7 @@ import (
 	"net/http"
 	"io/ioutil"
 
-	"github.com/DemyCode/QuizzFrontEnd/config"
+	"github.com/DemyCode/quizzfasttrack"
 	"github.com/spf13/cobra"
 )
 

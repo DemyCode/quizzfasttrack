@@ -1,4 +1,4 @@
-package main
+package server
 
 import (
 	// "fmt"
@@ -8,8 +8,8 @@ import (
 	"net/http"
 	// "strings"
 
-	"github.com/DemyCode/QuizzBackEnd/config"
-	"github.com/DemyCode/QuizzBackEnd/questionpack"
+	"github.com/DemyCode/quizzfasttrack"
+	"github.com/DemyCode/quizzfasttrack/lib/question"
 )
 
 func main() {
