@@ -33,12 +33,12 @@ var randomCmd = &cobra.Command{
 	Long: `Usage : questions
 Description : Displays the Questions containted in the description of questions.go file.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		var adress = config.HOST + ":" + config.PORT
-		resp, err := http.Get(adress + "/questions")
-		if (err != nil) {
-			log.Fatalln(err)
+		var adress = "http://" + config.HOST + ":" + config.PORT
+		var resp, errgetquestions = http.Get(adress + "/questions")
+		if (errgetquestions != nil) {
+			log.Fatalln(errgetquestions)
 		}
-		body, err := ioutil.ReadAll(resp.Body)
+		var body, err = ioutil.ReadAll(resp.Body)
 		if err != nil {
 			log.Fatalln(err)
 		}

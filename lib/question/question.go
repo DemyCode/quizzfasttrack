@@ -1,4 +1,4 @@
-package questionpack
+package question
 
 // import (
 // 	"fmt"
