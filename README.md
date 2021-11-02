@@ -13,6 +13,16 @@ then run in another window
 
 go run server/main.go
 
+For the client command run :
+go run client/main.go help
+
+Which will show you every command available for the program
+Then typing
+
+go run client.main.go help [command]
+
+Will display help and the usage of the command
+
 ## AUTHORS
 
 Mehdi Bekhtaoui
