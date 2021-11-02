@@ -130,7 +130,7 @@ func handleAnswers(w http.ResponseWriter, r *http.Request){
 		} 
 	}
 	var result string = fmt.Sprintf("Thank you for taking this Quizz ! You have %d correct answers out of %d questions\n", res, len(stringanswers))
-	result += fmt.Sprintf("You were better than %f percent of all quizzers", 100 * (float64(beaten) / float64(len(memory))))
+	result += fmt.Sprintf("You were better than %.0f percent of all quizzers", 100 * (float64(beaten) / float64(len(memory))))
 
 	memory = append(memory, percentscore)
 
