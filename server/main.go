@@ -5,13 +5,15 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"net/http"
 	"log"
+	"net/http"
+	"strconv"
+
 	// "strings"
 
 	"github.com/DemyCode/quizzfasttrack"
-	"github.com/DemyCode/quizzfasttrack/lib/question"
 	"github.com/DemyCode/quizzfasttrack/lib/errorhandler"
+	"github.com/DemyCode/quizzfasttrack/lib/question"
 )
 
 func main() {
@@ -37,6 +39,7 @@ func main() {
 	// Turning on the server
 	var adress = config.HOST + ":" + config.PORT
 	http.HandleFunc("/questions", handleQuestions)
+	http.HandleFunc("/answer", handleAnswers)
 	fmt.Println("Server running on ", adress)
 	err = http.ListenAndServe(adress, nil)
 	errorhandler.ErrorHandler(err, fatal)
@@ -69,4 +72,52 @@ func handleQuestions(w http.ResponseWriter, r *http.Request){
 	}
 	
 	w.Write(marshquestionned)
+}
+
+func handleAnswers(w http.ResponseWriter, r *http.Request){
+	var err error
+	var fatal bool = false
+	w.Header().Set("Content-Type", "application/json")
+
+	// fmt.Println("What")
+
+	body, err := ioutil.ReadAll(r.Body)
+	errorhandler.ErrorHandler(err, fatal)
+	// fmt.Println(body)
+
+	// Getting the answers
+	var stringanswers []string
+	err = json.Unmarshal(body, &stringanswers)
+	errorhandler.ErrorHandler(err, fatal)
+
+	// fmt.Println(stringanswers)
+	
+	// Reading the Json questions
+	jsonFile, err := ioutil.ReadFile(config.QUESTIONPATH)
+	errorhandler.ErrorHandler(err, fatal)
+	var questions []question.Question
+	err = json.Unmarshal(jsonFile, &questions)
+	if err != nil {
+		errorhandler.ErrorHandler(err, fatal)
+		return
+	}
+
+	// Number of answers different from the number of Questions
+	if len(stringanswers) != len(questions) {
+		w.Write([]byte("Number of answers different from the number of Questions"))
+		return
+	}
+
+	var res int
+	for i := 0; i < len(stringanswers); i++ {
+		answer, err := strconv.Atoi(stringanswers[i])
+		if err != nil {
+			w.Write([]byte("Please answers must be of type int [0-9]+"))
+			return
+		}
+		if answer == questions[i].GetAnswer() {
+			res += 1
+		}
+	}
+	w.Write([]byte(fmt.Sprintf("Thank you for taking this Quizz ! You have %d correct answers out of %d questions", res, len(stringanswers))))
 }

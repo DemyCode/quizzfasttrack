@@ -8,5 +8,4 @@ sudo apt install git -y
 cd /home/verycols
 git clone https://github.com/DemyCode/quizzfasttrack.git
 cd quizzfasttrack
-go build server/main.go
-./main
+go run server/main.go

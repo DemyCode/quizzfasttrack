@@ -16,11 +16,11 @@ limitations under the License.
 package cmd
 
 import (
-	// "fmt"
-	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"encoding/json"
+	"bytes"
 
 	"github.com/spf13/cobra"
 
@@ -28,46 +28,51 @@ import (
 	"github.com/DemyCode/quizzfasttrack/lib/errorhandler"
 )
 
-// randomCmd represents the random command
-var randomCmd = &cobra.Command{
-	Use:   "questions",
-	Short: "Displays the Questions",
-	Long: `Usage : questions
-Description : Displays the Questions containted in the description of questions.go file.`,
+// answerCmd represents the answer command
+var answerCmd = &cobra.Command{
+	Use:   "answer",
+	Short: "Used to answer the questions received (please use questions command before)",
+	Long: `Usage : ./client answer ([0-9] )*
+result : Is the integer corresponding to the answer of your question.
+Answer questions in respective order
+
+Example : 
+$ ./client questions
+A) What is the capital of France ?
+1) Paris 2) Amsterdam 3) London 4) New York
+B) What is the capital of Italy ?
+1) Firenze 2) Vatican 3) Roma 4) Venise
+$ ./client answer 1 3`,
 	Run: func(cmd *cobra.Command, args []string) {
 		var err error
 		var fatal bool = true
 
 		var adress = "http://" + config.HOST + ":" + config.PORT
-		resp, err := http.Get(adress + "/questions")
-		errorhandler.ErrorHandler(err, fatal)
+		// resp, err := http.Get(adress + "/answer")
 
+		jsondata, err := json.Marshal(args)
+		errorhandler.ErrorHandler(err, fatal)
+		resp, err := http.Post(adress + "/answer", "application/json", bytes.NewBuffer(jsondata))
+		errorhandler.ErrorHandler(err, fatal)
 		body, err := ioutil.ReadAll(resp.Body)
 		errorhandler.ErrorHandler(err, fatal)
-		
-		var textonly []string
-		err = json.Unmarshal(body, &textonly)
-		errorhandler.ErrorHandler(err, fatal)
 
-		fmt.Println("Here are the questions !\n")
-		for _, text := range textonly {
-			fmt.Println(text + "\n")
-		}
+		fmt.Println(string(body))
 
 		defer resp.Body.Close()
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(randomCmd)
+	rootCmd.AddCommand(answerCmd)
 
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
-	// randomCmd.PersistentFlags().String("foo", "", "A help for foo")
+	// answerCmd.PersistentFlags().String("foo", "", "A help for foo")
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
-	// randomCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	// answerCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
