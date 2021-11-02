@@ -1,7 +1,7 @@
 package config
 
 const (
-	HOST = ""
+	HOST = "34.140.239.165"
 	PORT = "8080"
 	QUESTIONPATH = "server/questions.json"
 )

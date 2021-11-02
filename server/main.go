@@ -74,6 +74,8 @@ func handleQuestions(w http.ResponseWriter, r *http.Request){
 	w.Write(marshquestionned)
 }
 
+var memory []float64
+
 func handleAnswers(w http.ResponseWriter, r *http.Request){
 	var err error
 	var fatal bool = false
@@ -119,5 +121,18 @@ func handleAnswers(w http.ResponseWriter, r *http.Request){
 			res += 1
 		}
 	}
-	w.Write([]byte(fmt.Sprintf("Thank you for taking this Quizz ! You have %d correct answers out of %d questions", res, len(stringanswers))))
+
+	var percentscore float64 = float64(res) / float64(len(stringanswers))
+	var beaten int = 0
+	for i := 0; i < len(memory); i++ {
+		if memory[i] < percentscore{
+			beaten += 1
+		} 
+	}
+	var result string = fmt.Sprintf("Thank you for taking this Quizz ! You have %d correct answers out of %d questions\n", res, len(stringanswers))
+	result += fmt.Sprintf("You were better than %f percent of all quizzers", 100 * (float64(beaten) / float64(len(memory))))
+
+	memory = append(memory, percentscore)
+
+	w.Write([]byte(result))
 }

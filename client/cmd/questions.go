@@ -37,7 +37,6 @@ Description : Displays the Questions containted in the description of questions.
 	Run: func(cmd *cobra.Command, args []string) {
 		var err error
 		var fatal bool = true
-
 		var adress = "http://" + config.HOST + ":" + config.PORT
 		resp, err := http.Get(adress + "/questions")
 		errorhandler.ErrorHandler(err, fatal)
